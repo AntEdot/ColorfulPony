@@ -40,7 +40,7 @@ void waveAnimation (uint8_t red, uint8_t green, uint8_t blue) {
   for (int i = 0; i < NUM_LEDS; i++) {
     strip.setPixelColor(i, red, green, blue);
     strip.show();
-    delay(4);
+    delay(2);
   }
 }
 

@@ -6,5 +6,6 @@ void timeCounter() {
 }
 
 void rainbowCounter() {
+  Serial.println(rbCounter);
   rainbow(rbCounter++);
 }

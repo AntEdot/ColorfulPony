@@ -58,6 +58,9 @@ void setStripBrightness () {
 
   strip.setBrightness(brightValue);
   strip.show();
+
+  storeInStruct(brightValue);
+  EEPROM.put(0, memory);
 }
 
 void setStripColor () {
@@ -101,6 +104,7 @@ void setStripColor () {
 
     fillStrip(hsl(hue, sat, 50)); //hsl to RGB
   }
+  printEEPROM();
 }
 
 void doRainbow () {

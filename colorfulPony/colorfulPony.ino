@@ -9,6 +9,7 @@
 #include <Homey.h>
 #include <tempcolor.h> //https://gitlab.com/tllado/tempcolor
 #include <Ticker.h>   //https://circuits4you.com/2018/01/02/esp8266-timer-ticker-example/
+#include <EEPROM.h>   //https://github.com/esp8266/Arduino/tree/master/libraries/EEPROM/examples
 
 #define NUM_LEDS 463
 #define LED_PIN 12 //GPIO 12 is D6 --> https://www.roboshala.com/nodemcu-pinout/
@@ -20,9 +21,6 @@ const char* ssid = "Penthouse";
 const char* password = "P3n7h0u53";
 const char* deviceName = "colorfulPony";
 
-int timeCount = 0;
-int timeMAX = 999;
-
 String prevInputStr;
 
 struct LED {
@@ -31,6 +29,14 @@ struct LED {
   uint8_t B;
 };
 
+struct store {
+  String action;
+  struct LED color;
+  uint8_t brightness;
+};
+
+struct store memory;
+
 uint8_t rbCounter = 0;
 
 Ticker ticHomey;
@@ -38,10 +44,10 @@ Ticker ticker;
 
 void setup() {
   Serial.begin(115200);
-
+  
   strip.setBrightness(50);
   strip.begin();
-  clearStrip();
+  setStripToPrev();
   strip.show();
 
   //Connect to network

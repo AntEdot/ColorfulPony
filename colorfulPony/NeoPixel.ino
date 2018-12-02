@@ -19,6 +19,9 @@ void fillStrip (uint8_t red, uint8_t green, uint8_t blue) {
   }
   strip.show();
 
+  storeInStruct(red, green, blue);
+  EEPROM.put(0, memory);
+
   Serial.println();
   Serial.print("Color charged to: ");
   Serial.print(red, DEC);
@@ -42,6 +45,13 @@ void waveAnimation (uint8_t red, uint8_t green, uint8_t blue) {
     strip.show();
     delay(2);
   }
+}
+
+void setStripToPrev() {
+  clearStrip();
+  EEPROM.get(0, memory);
+  fillStrip(memory.color.R, memory.color.G, memory.color.B);
+  strip.setBrightness(memory.brightness);
 }
 
 // Fill the dots one after the other with a color
@@ -181,6 +191,9 @@ uint32_t hsl(uint16_t ih, uint8_t is, uint8_t il) {
   g = hsl_convert(tg, t1, t2);
   b = hsl_convert(tb, t1, t2);
 
+  storeInStruct(r, g, b);
+  EEPROM.put(0, memory);
+  
   // NeoPixel packed RGB color
   return ((uint32_t)r << 16) | ((uint32_t)g <<  8) | b;
 }

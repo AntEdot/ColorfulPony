@@ -8,6 +8,7 @@
 #include <WiFiClient.h>
 #include <Homey.h>
 #include <tempcolor.h> //https://gitlab.com/tllado/tempcolor
+#include <TimerOne.h>
 
 #define NUM_LEDS 463
 #define LED_PIN 12 //GPIO 12 is D6 --> https://www.roboshala.com/nodemcu-pinout/
@@ -19,10 +20,13 @@ const char* ssid = "Penthouse";
 const char* password = "P3n7h0u53";
 const char* deviceName = "colorfulPony";
 
+uint32_t period = 1000000; //1sec
+
 String prevInputStr;
 
 void setup() {
   Serial.begin(115200);
+  Timer1.initialize(period);  //Initialize TimerOne (A timer will run with a specific period)
 
   strip.setBrightness(50);
   strip.begin();
@@ -39,6 +43,8 @@ void setup() {
   }
   Serial.println();
 
+  Timer1.attachInterrupt(tick, period);    //Attatch tick to the timer interupt
+
   //Start Homey library
   Homey.begin(deviceName);
   /* Note:
@@ -47,6 +53,7 @@ void setup() {
      The name is stored as a String and can thus be as long as you
      desire it to be.
   */
+  
 
   //Register an example action
   Homey.addAction("printTest", printTest);
@@ -60,5 +67,4 @@ void setup() {
 }
 
 void loop() {
-  Homey.loop();
 }

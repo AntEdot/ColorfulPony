@@ -1,0 +1,3 @@
+void tick(){
+    Homey.loop();
+}

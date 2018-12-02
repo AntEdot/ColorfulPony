@@ -1,7 +1,3 @@
-void tick(){
-  Homey.loop();
-}
-
 void timeCounter() {
   timeCount++;
   if (timeCount > timeMAX) {

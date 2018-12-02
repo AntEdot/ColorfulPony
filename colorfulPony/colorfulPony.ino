@@ -79,5 +79,5 @@ void setup() {
 }
 
 void loop() {
-  //Homey.loop();
+  Homey.loop();
 }

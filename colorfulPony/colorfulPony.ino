@@ -54,8 +54,6 @@ void setup() {
   }
   Serial.println();
 
-  ticHomey.attach_ms(100, tick);
-
   //Start Homey library
   Homey.begin(deviceName);
   /* Note:
@@ -79,5 +77,5 @@ void setup() {
 }
 
 void loop() {
-  //Homey.loop();
+  Homey.loop();
 }

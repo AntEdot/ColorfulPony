@@ -1,4 +1,5 @@
 void printTest() {
+  ticker.detach();
   Serial.println();
   Serial.println("Homey print test succesful!");
   Serial.print("Value: ");
@@ -7,6 +8,7 @@ void printTest() {
 }
 
 void setNeoPixelBrightness() {
+  ticker.detach();
   int brightValue = Homey.value.toInt();
   brightValue = charLimitCorrection(brightValue);
 
@@ -19,6 +21,7 @@ void setNeoPixelBrightness() {
 }
 
 void setNeoPixelColor() {
+  ticker.detach();
   int color = Homey.value.toInt();
   uint8_t red, green, blue = 0;
 
@@ -33,6 +36,7 @@ void setNeoPixelColor() {
 }
 
 void doWaveAnimation () {
+  ticker.detach();
   int color = Homey.value.toInt();
   uint8_t red, green, blue = 0;
 
@@ -47,6 +51,7 @@ void doWaveAnimation () {
 }
 
 void setStripBrightness () {
+  ticker.detach();
   float brightValue = Homey.value.toFloat();
   brightValue = brightValue * 100;                                //move value past the decimal point to be albe to convert to int.
   uint8_t stripBrightValue = map(brightValue, 0, 100, 1, 255);
@@ -56,9 +61,10 @@ void setStripBrightness () {
 }
 
 void setStripColor () {
+  ticker.detach();
   String str = Homey.value;
   Serial.println(str);
-  
+
   if (str.equals(prevInputStr)) {
     return;
   }
@@ -86,15 +92,20 @@ void setStripColor () {
   prevInputStr = str;
 
   colorORtemp.trim(); //remove whitespace
-  
+
   if ((colorORtemp.equals("temperaturetemperature")) or (colorORtemp.equals("temperature"))) {
-    
+
     fillStrip(temp.color(tem, 255));  //temp to RGB
   }
   else {
-    
+
     fillStrip(hsl(hue, sat, 50)); //hsl to RGB
   }
+}
+
+void doRainbow () {
+  ticker.detach();
+  ticker.attach_ms(20, rainbowCounter); //do not set period to low or it will reset
 }
 
 uint8_t charLimitCorrection(int charValue) {

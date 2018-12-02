@@ -40,7 +40,7 @@ void waveAnimation (uint8_t red, uint8_t green, uint8_t blue) {
   for (int i = 0; i < NUM_LEDS; i++) {
     strip.setPixelColor(i, red, green, blue);
     strip.show();
-    delay(4);
+    delay(2);
   }
 }
 
@@ -53,7 +53,16 @@ void colorWipe(uint32_t c, uint8_t wait) {
   }
 }
 
-void rainbow(uint8_t wait) {
+void rainbow(uint8_t j) {
+  uint16_t i;
+  for (i = 0; i < strip.numPixels(); i++) {
+    strip.setPixelColor(i, Wheel((i + j) & 255));
+  }
+  strip.show();
+}
+
+/*
+  void rainbow(uint8_t wait) {
   uint16_t i, j;
 
   for (j = 0; j < 256; j++) {
@@ -63,7 +72,8 @@ void rainbow(uint8_t wait) {
     strip.show();
     delay(wait);
   }
-}
+  }
+*/
 
 // Slightly different, this makes the rainbow equally distributed throughout
 void rainbowCycle(uint8_t wait) {
@@ -138,7 +148,7 @@ uint32_t Wheel(byte WheelPos) {
    Probably not the most efficient solution, but
    it get's the job done.
 
-  *Good To Know
+   Good To Know
     - Hue is specified in degrees, thus ranges from 0 - 359, Red = 0, Green = 120, Blue = 240
     - Hue input is mod’d by 360, so 540 == 180
     - Saturation is a percentage, ranges 0 - 100

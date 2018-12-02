@@ -8,6 +8,7 @@
 #include <WiFiClient.h>
 #include <Homey.h>
 #include <tempcolor.h> //https://gitlab.com/tllado/tempcolor
+#include <Ticker.h>   //https://circuits4you.com/2018/01/02/esp8266-timer-ticker-example/
 
 #define NUM_LEDS 463
 #define LED_PIN 12 //GPIO 12 is D6 --> https://www.roboshala.com/nodemcu-pinout/
@@ -19,7 +20,21 @@ const char* ssid = "Penthouse";
 const char* password = "P3n7h0u53";
 const char* deviceName = "colorfulPony";
 
+int timeCount = 0;
+int timeMAX = 999;
+
 String prevInputStr;
+
+struct LED {
+  uint8_t R;
+  uint8_t G;
+  uint8_t B;
+};
+
+uint8_t rbCounter = 0;
+
+Ticker ticHomey;
+Ticker ticker;
 
 void setup() {
   Serial.begin(115200);
@@ -47,6 +62,7 @@ void setup() {
      The name is stored as a String and can thus be as long as you
      desire it to be.
   */
+  
 
   //Register an example action
   Homey.addAction("printTest", printTest);
@@ -55,6 +71,7 @@ void setup() {
   Homey.addAction("doWaveAnimation", doWaveAnimation);
   Homey.addAction("setStripBrightness", setStripBrightness);
   Homey.addAction("setStripColor", setStripColor);
+  Homey.addAction("rainbow", doRainbow);
 
   Serial.println("READY");
 }

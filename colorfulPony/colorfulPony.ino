@@ -20,13 +20,24 @@ const char* ssid = "Penthouse";
 const char* password = "P3n7h0u53";
 const char* deviceName = "colorfulPony";
 
-float period = 1.0;
+int timeCount = 0;
+int timeMAX = 999;
 
 String prevInputStr;
 
+struct LED {
+  uint8_t R;
+  uint8_t G;
+  uint8_t B;
+};
+
+uint8_t rbCounter = 0;
+
+Ticker ticHomey;
+Ticker ticker;
+
 void setup() {
   Serial.begin(115200);
-  Ticker ticker;
 
   strip.setBrightness(50);
   strip.begin();
@@ -43,7 +54,7 @@ void setup() {
   }
   Serial.println();
 
-  ticker.attach(period, tick);    //Attatch tick to the timer interupt
+  ticHomey.attach_ms(100, tick);
 
   //Start Homey library
   Homey.begin(deviceName);
@@ -62,9 +73,11 @@ void setup() {
   Homey.addAction("doWaveAnimation", doWaveAnimation);
   Homey.addAction("setStripBrightness", setStripBrightness);
   Homey.addAction("setStripColor", setStripColor);
+  Homey.addAction("rainbow", doRainbow);
 
   Serial.println("READY");
 }
 
 void loop() {
+  //Homey.loop();
 }

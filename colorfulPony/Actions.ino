@@ -97,6 +97,12 @@ void setStripColor () {
   }
 }
 
+void doRainbow (){
+  //ticker.detach();
+  
+  //ticker.attach_ms(1, rainbowCounter);
+}
+
 uint8_t charLimitCorrection(int charValue) {
   if (charValue > 255) {
     charValue = 255;

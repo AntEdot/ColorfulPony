@@ -8,7 +8,7 @@
 #include <WiFiClient.h>
 #include <Homey.h>
 #include <tempcolor.h> //https://gitlab.com/tllado/tempcolor
-#include <TimerOne.h>
+#include <Ticker.h>   //https://circuits4you.com/2018/01/02/esp8266-timer-ticker-example/
 
 #define NUM_LEDS 463
 #define LED_PIN 12 //GPIO 12 is D6 --> https://www.roboshala.com/nodemcu-pinout/
@@ -20,13 +20,13 @@ const char* ssid = "Penthouse";
 const char* password = "P3n7h0u53";
 const char* deviceName = "colorfulPony";
 
-uint32_t period = 1000000; //1sec
+float period = 1.0;
 
 String prevInputStr;
 
 void setup() {
   Serial.begin(115200);
-  Timer1.initialize(period);  //Initialize TimerOne (A timer will run with a specific period)
+  Ticker ticker;
 
   strip.setBrightness(50);
   strip.begin();
@@ -43,7 +43,7 @@ void setup() {
   }
   Serial.println();
 
-  Timer1.attachInterrupt(tick, period);    //Attatch tick to the timer interupt
+  ticker.attach(period, tick);    //Attatch tick to the timer interupt
 
   //Start Homey library
   Homey.begin(deviceName);

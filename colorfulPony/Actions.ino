@@ -60,7 +60,7 @@ void setStripBrightness () {
   strip.show();
 
   storeInStruct(brightValue);
-  EEPROM.put(0, memory);
+  putInEEPROM();
 }
 
 void setStripColor () {
@@ -97,14 +97,14 @@ void setStripColor () {
   colorORtemp.trim(); //remove whitespace
 
   if ((colorORtemp.equals("temperaturetemperature")) or (colorORtemp.equals("temperature"))) {
-
-    fillStrip(temp.color(tem, 255));  //temp to RGB
+    uint32_t color = temp.color(tem, 255);//temp to RGB
+    fillStrip(color);  
+    decode32BitColor(color);
   }
   else {
 
     fillStrip(hsl(hue, sat, 50)); //hsl to RGB
   }
-  printEEPROM();
 }
 
 void doRainbow () {

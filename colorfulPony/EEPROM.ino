@@ -18,6 +18,11 @@ void storeInStruct(uint8_t brightness) {
   memory.brightness = brightness;
 }
 
+void putInEEPROM() {
+  EEPROM.put(0, memory);
+  EEPROM.commit();
+}
+
 void printEEPROM() {
   EEPROM.get(0, memory);
   Serial.print(memory.color.R);

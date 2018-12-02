@@ -44,6 +44,7 @@ Ticker ticker;
 
 void setup() {
   Serial.begin(115200);
+  EEPROM.begin(512);
   
   strip.setBrightness(50);
   strip.begin();

@@ -1,11 +1,22 @@
-void decode32BitColor(uint32_t color){
-  uint8_t R,G,B;
+void decode32BitColor(uint32_t color) {
+  uint8_t R, G, B;
   R = (uint8_t)color >> 16;
   G = (uint8_t)color >> 8;
   B = (uint8_t)color;
 
-  storeInStruct(R,G,B);
+  storeInStruct(R, G, B);
   putInEEPROM();
+}
+
+
+void setMultiplePixels(uint16_t from, uint16_t num, uint32_t color) {
+  for (int i = 0; i < num; i++) {
+    strip.setPixelColor(from + i, color);
+  }
+}
+
+uint32_t encode32BitColor(uint8_t r, uint8_t g, uint8_t b) {
+return ((uint32_t)r << 16) | ((uint32_t)g <<  8) | b;
 }
 
 //***************************************************************************************************************************
@@ -149,7 +160,7 @@ uint32_t hsl(uint16_t ih, uint8_t is, uint8_t il) {
   storeInStruct(r, g, b);
   putInEEPROM();
   printEEPROM();
-  
+
   // NeoPixel packed RGB color
   return ((uint32_t)r << 16) | ((uint32_t)g <<  8) | b;
 }

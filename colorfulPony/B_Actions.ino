@@ -51,7 +51,6 @@ void doWaveAnimation () {
 }
 
 void setStripBrightness () {
-  ticker.detach();
   float brightValue = Homey.value.toFloat();
   brightValue = brightValue * 100;                                //move value past the decimal point to be albe to convert to int.
   uint8_t stripBrightValue = map(brightValue, 0, 100, 1, 255);
@@ -64,14 +63,15 @@ void setStripBrightness () {
 }
 
 void setStripColor () {
-  ticker.detach();
   String str = Homey.value;
-  Serial.println(str);
-
+  
   if (str.equals(prevInputStr)) {
     return;
   }
-
+  
+  Serial.println(str);
+  ticker.detach();
+  
   uint8_t boundryOne = str.indexOf('|');
   uint8_t boundryTwo = str.indexOf('|', boundryOne + 1);
   uint8_t boundryThr = str.indexOf('|', boundryTwo + 1);
@@ -109,7 +109,12 @@ void setStripColor () {
 
 void doRainbow () {
   ticker.detach();
-  ticker.attach_ms(20, rainbowCounter); //do not set period to low or it will reset
+  ticker.attach_ms(20, rainbowAmimation); //do not set period to low or it will reset
+}
+
+void xmas(){
+  ticker.detach();
+  ticker.attach_ms(1000, xmasToggle); //do not set period to low or it will reset
 }
 
 uint8_t charLimitCorrection(int charValue) {

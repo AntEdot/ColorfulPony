@@ -7,6 +7,7 @@ void decode32BitColor(uint32_t color){
   storeInStruct(R,G,B);
   putInEEPROM();
 }
+
 //***************************************************************************************************************************
 // Fill the dots one after the other with a color
 void colorWipe(uint32_t c, uint8_t wait) {

@@ -58,6 +58,9 @@ void setStripBrightness () {
 
   strip.setBrightness(brightValue);
   strip.show();
+
+  storeInStruct(brightValue);
+  putInEEPROM();
 }
 
 void setStripColor () {
@@ -94,8 +97,9 @@ void setStripColor () {
   colorORtemp.trim(); //remove whitespace
 
   if ((colorORtemp.equals("temperaturetemperature")) or (colorORtemp.equals("temperature"))) {
-
-    fillStrip(temp.color(tem, 255));  //temp to RGB
+    uint32_t color = temp.color(tem, 255);//temp to RGB
+    fillStrip(color);  
+    decode32BitColor(color);
   }
   else {
 

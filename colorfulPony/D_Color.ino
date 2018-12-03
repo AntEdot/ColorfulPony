@@ -1,49 +1,13 @@
-void fillStrip () {
-  for (int i = 0; i < NUM_LEDS; i++) {
-    strip.setPixelColor(i, 255, 255, 255);
-  }
-  strip.show();
+void decode32BitColor(uint32_t color){
+  uint8_t R,G,B;
+  R = (uint8_t)color >> 16;
+  G = (uint8_t)color >> 8;
+  B = (uint8_t)color;
+
+  storeInStruct(R,G,B);
+  putInEEPROM();
 }
-
-void fillStrip (uint32_t color) {
-  for (int i = 0; i < NUM_LEDS; i++) {
-    strip.setPixelColor(i, color);
-  }
-  strip.show();
-
-}
-
-void fillStrip (uint8_t red, uint8_t green, uint8_t blue) {
-  for (int i = 0; i < NUM_LEDS; i++) {
-    strip.setPixelColor(i, red, green, blue);
-  }
-  strip.show();
-
-  Serial.println();
-  Serial.print("Color charged to: ");
-  Serial.print(red, DEC);
-  Serial.print(" ");
-  Serial.print(green, DEC);
-  Serial.print(" ");
-  Serial.print(blue, DEC);
-  Serial.println();
-}
-
-void clearStrip () {
-  for (int i = 0; i < NUM_LEDS; i++) {
-    strip.setPixelColor(i, 0, 0, 0);
-  }
-  strip.show();
-}
-
-void waveAnimation (uint8_t red, uint8_t green, uint8_t blue) {
-  for (int i = 0; i < NUM_LEDS; i++) {
-    strip.setPixelColor(i, red, green, blue);
-    strip.show();
-    delay(2);
-  }
-}
-
+//***************************************************************************************************************************
 // Fill the dots one after the other with a color
 void colorWipe(uint32_t c, uint8_t wait) {
   for (uint16_t i = 0; i < strip.numPixels(); i++) {
@@ -181,6 +145,10 @@ uint32_t hsl(uint16_t ih, uint8_t is, uint8_t il) {
   g = hsl_convert(tg, t1, t2);
   b = hsl_convert(tb, t1, t2);
 
+  storeInStruct(r, g, b);
+  putInEEPROM();
+  printEEPROM();
+  
   // NeoPixel packed RGB color
   return ((uint32_t)r << 16) | ((uint32_t)g <<  8) | b;
 }

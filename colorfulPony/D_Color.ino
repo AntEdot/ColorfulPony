@@ -1,11 +1,10 @@
-void decode32BitColor(uint32_t color) {
-  uint8_t R, G, B;
-  R = (uint8_t)color >> 16;
-  G = (uint8_t)color >> 8;
-  B = (uint8_t)color;
+uint8_t* decode32BitColor(uint32_t color) {
+  uint8_t buf[3];
+  buf[1] = (uint8_t)color >> 16;
+  buf[2] = (uint8_t)color >> 8;
+  buf[3] = (uint8_t)color;
 
-  storeInStruct(R, G, B);
-  putInEEPROM();
+  return buf;
 }
 
 

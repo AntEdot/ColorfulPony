@@ -64,14 +64,14 @@ void setStripBrightness () {
 
 void setStripColor () {
   String str = Homey.value;
-  
+
   if (str.equals(prevInputStr)) {
     return;
   }
-  
+
   Serial.println(str);
   ticker.detach();
-  
+
   uint8_t boundryOne = str.indexOf('|');
   uint8_t boundryTwo = str.indexOf('|', boundryOne + 1);
   uint8_t boundryThr = str.indexOf('|', boundryTwo + 1);
@@ -98,8 +98,12 @@ void setStripColor () {
 
   if ((colorORtemp.equals("temperaturetemperature")) or (colorORtemp.equals("temperature"))) {
     uint32_t color = temp.color(tem, 255);//temp to RGB
-    fillStrip(color);  
-    decode32BitColor(color);
+    fillStrip(color);
+
+    //store color in EEPROM
+    uint8_t* buf = decode32BitColor(color);
+    storeInStruct(*buf++,*buf++,*buf);
+    putInEEPROM();
   }
   else {
 
@@ -109,12 +113,17 @@ void setStripColor () {
 
 void doRainbow () {
   ticker.detach();
-  ticker.attach_ms(20, rainbowAmimation); //do not set period to low or it will reset
+  ticker.attach_ms(20, rainbowAnimation); //do not set period to low or it will reset
 }
 
-void xmas(){
+void xmas() {
   ticker.detach();
   ticker.attach_ms(1000, xmasToggle); //do not set period to low or it will reset
+}
+
+void chase() {
+  ticker.detach();
+  ticker.attach_ms(500, chaseAni); //do not set period to low or it will reset
 }
 
 uint8_t charLimitCorrection(int charValue) {

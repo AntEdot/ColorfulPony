@@ -2,7 +2,7 @@ void timeCounter() {
   setStripToPrev();
 }
 
-void rainbowAmimation() {
+void rainbowAnimation() {
   Serial.println(rbCounter);
   rainbow(rbCounter++);
 }
@@ -12,6 +12,12 @@ void xmasToggle() {
   xmasToggle = toggle(xmasToggle);
   xmasAnimation(xmasToggle);
 }
+
+void chaseAni() {
+  static int ledPos = 0;
+  ledPos = chaseAnimation(ledPos);
+}
+
 
 uint8_t toggle(uint8_t tog) {
   if (tog) {

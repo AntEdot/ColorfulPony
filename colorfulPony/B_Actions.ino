@@ -88,27 +88,27 @@ void setStripColor () {
   int      tem = map(temF, 0, 100, 10000, 2000);
   uint16_t hue = map(hueF, 0, 100, 0, 359);
   uint8_t  sat = map(satF, 0, 100, 0, 100);
-  Serial.println(tem);
-  Serial.println(hue);
-  Serial.println(sat);
 
   prevInputStr = str;
 
   colorORtemp.trim(); //remove whitespace
 
+  uint32_t color;
   if ((colorORtemp.equals("temperaturetemperature")) or (colorORtemp.equals("temperature"))) {
-    uint32_t color = temp.color(tem, 255);//temp to RGB
-    fillStrip(color);
-
-    //store color in EEPROM
-    uint8_t* buf = decode32BitColor(color);
-    storeInStruct(*buf++,*buf++,*buf);
-    putInEEPROM();
+    color = temp.color(tem, 255);//temp to RGB
   }
   else {
-
-    fillStrip(hsl(hue, sat, 50)); //hsl to RGB
+    color = hsl(hue, sat, 50); //hsl to RGB
   }
+
+  //Set the strip
+  fillStrip(color);
+
+  //store color in EEPROM
+  uint8_t* pt = decode32BitColor(color);
+  storeInStruct(*pt++, *pt++, *pt);
+  putInEEPROM();
+  printEEPROM();
 }
 
 void doRainbow () {

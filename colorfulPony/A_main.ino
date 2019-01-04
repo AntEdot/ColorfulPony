@@ -3,7 +3,6 @@ void setup() {
   EEPROM.begin(512);
 
   Serial.println();
-  Serial.printf("dff");
   strip.begin();
   setStripToPrev();
   strip.show();

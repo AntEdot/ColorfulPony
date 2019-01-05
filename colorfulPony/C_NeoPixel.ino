@@ -9,8 +9,8 @@ void waveAnimation (uint8_t red, uint8_t green, uint8_t blue) {
 void setStripToPrev() {
   printEEPROM();
   EEPROM.get(0, memory);
-  fillStrip(memory.color.R, memory.color.G, memory.color.B);
   strip.setBrightness(memory.brightness);
+  transitionToColor(0,0,0, encode32BitColor(memory.color.R, memory.color.G, memory.color.B),20);
 }
 
 void xmasAnimation(uint8_t toggle) {
@@ -39,9 +39,8 @@ void chaseAnimation(int StartPos) {
   int pos = StartPos;
   uint32_t color = encode32BitColor(0, 0, 255);
   uint8_t len = 70;
-  
+
   pos = chaseObject(pos, color, len);
-  yield();
   strip.show();
 }
 
@@ -81,6 +80,23 @@ uint32_t colorPercentage(uint32_t color, float percentage) {
   b = charLimitCorrection(b);
 
   return encode32BitColor(r, g, b);
+}
+//******TRANSITION*****************************************************
+void transitionToColor(uint8_t r1, uint8_t g1, uint8_t b1, uint32_t color, uint8_t steps) {
+  uint8_t* buf = decode32BitColor(color);
+  uint8_t r2 = *buf++;
+  uint8_t g2 = *buf++;
+  uint8_t b2 = *buf;
+
+  int rDelta = (int)((r1 - r2) / steps);
+  int gDelta = (int)((g1 - g2) / steps);
+  int bDelta = (int)((b1 - b2) / steps);
+
+  for (int i = 1; i < (steps + 1); i++) {
+    fillStrip(memory.color.R - rDelta * i, memory.color.G - gDelta * i, memory.color.B - bDelta * i);
+    delay(100/steps);
+  }
+  fillStrip(color);
 }
 
 //******BASIC FILL*****************************************************

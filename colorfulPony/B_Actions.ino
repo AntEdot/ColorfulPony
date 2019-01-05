@@ -102,7 +102,8 @@ void setStripColor () {
   }
 
   //Set the strip
-  fillStrip(color);
+  //fillStrip(color);
+  transitionToColor(memory.color.R, memory.color.G, memory.color.B, color, 20);
 
   //store color in EEPROM
   uint8_t* pt = decode32BitColor(color);

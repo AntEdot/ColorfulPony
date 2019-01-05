@@ -55,10 +55,10 @@ void setStripBrightness () {
   brightValue = brightValue * 100;                                //move value past the decimal point to be albe to convert to int.
   uint8_t stripBrightValue = map(brightValue, 0, 100, 1, 255);
 
-  strip.setBrightness(brightValue);
+  strip.setBrightness(stripBrightValue);
   strip.show();
 
-  storeInStruct(brightValue);
+  storeInStruct(stripBrightValue);
   putInEEPROM();
 }
 

@@ -123,7 +123,7 @@ void xmas() {
 
 void chase() {
   ticker.detach();
-  ticker.attach_ms(500, chaseAni); //do not set period to low or it will reset
+  ticker.attach_ms(100, chaseAni); //do not set period to low or it will reset
 }
 
 uint8_t charLimitCorrection(int charValue) {

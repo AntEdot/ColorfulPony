@@ -35,20 +35,26 @@ void xmasAnimation(uint8_t toggle) {
   strip.show();
 }
 
-
-int chaseAnimation(int pos) {
+void chaseAnimation(int StartPos) {
+  int pos = StartPos;
+  uint32_t color = encode32BitColor(0, 0, 255);
+  uint8_t len = 70;
   
-  int per = 100;
-  uint8_t colLn = 20;
-  uint8_t decAm = 10;
-  uint32_t color = encode32BitColor(255, 0, 0);
-  fillStrip(colorPercentage(color,100));
+  pos = chaseObject(pos, color, len);
+  yield();
+  strip.show();
+}
 
-  for (uint8_t i = 0; i < colLn; i++) {
+
+int chaseObject(int pos, uint32_t color, uint8_t len) {
+  int per = 100;
+  uint8_t decAm = 2;
+
+  for (uint8_t i = 0; i < len; i++) {
     if (pos > NUM_LEDS) {
       pos = 0;
     }
-    //strip.setPixelColor(pos, colorPercentage(color, per));
+    strip.setPixelColor(pos, colorPercentage(color, per));
     pos++;
     per -= decAm;
     per = charLimitCorrection(per);
@@ -97,18 +103,6 @@ void fillStrip (uint8_t red, uint8_t green, uint8_t blue) {
     strip.setPixelColor(i, red, green, blue);
   }
   strip.show();
-
-  storeInStruct(red, green, blue);
-  putInEEPROM();
-
-  Serial.println();
-  Serial.print("Color charged to: ");
-  Serial.print(red, DEC);
-  Serial.print(" ");
-  Serial.print(green, DEC);
-  Serial.print(" ");
-  Serial.print(blue, DEC);
-  Serial.println();
 }
 
 void clearStrip () {

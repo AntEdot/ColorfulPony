@@ -25,7 +25,7 @@ void setup() {
      The name is stored as a String and can thus be as long as you
      desire it to be.
   */
-  
+
 
   //Register an action
   Homey.addAction("printTest", printTest);

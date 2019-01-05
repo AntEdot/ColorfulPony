@@ -14,8 +14,11 @@ void xmasToggle() {
 }
 
 void chaseAni() {
-  static int ledPos = 0;
-  ledPos = chaseAnimation(ledPos);
+  static int count = NUM_LEDS;
+  chaseAnimation(count--);
+  if (count < 0) {
+    count = NUM_LEDS;
+  }
 }
 
 

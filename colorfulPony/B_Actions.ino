@@ -55,23 +55,23 @@ void setStripBrightness () {
   brightValue = brightValue * 100;                                //move value past the decimal point to be albe to convert to int.
   uint8_t stripBrightValue = map(brightValue, 0, 100, 1, 255);
 
-  strip.setBrightness(brightValue);
+  strip.setBrightness(stripBrightValue);
   strip.show();
 
-  storeInStruct(brightValue);
+  storeInStruct(stripBrightValue);
   putInEEPROM();
 }
 
 void setStripColor () {
   String str = Homey.value;
-  
+
   if (str.equals(prevInputStr)) {
     return;
   }
-  
+
   Serial.println(str);
   ticker.detach();
-  
+
   uint8_t boundryOne = str.indexOf('|');
   uint8_t boundryTwo = str.indexOf('|', boundryOne + 1);
   uint8_t boundryThr = str.indexOf('|', boundryTwo + 1);
@@ -88,33 +88,42 @@ void setStripColor () {
   int      tem = map(temF, 0, 100, 10000, 2000);
   uint16_t hue = map(hueF, 0, 100, 0, 359);
   uint8_t  sat = map(satF, 0, 100, 0, 100);
-  Serial.println(tem);
-  Serial.println(hue);
-  Serial.println(sat);
 
   prevInputStr = str;
 
   colorORtemp.trim(); //remove whitespace
 
+  uint32_t color;
   if ((colorORtemp.equals("temperaturetemperature")) or (colorORtemp.equals("temperature"))) {
-    uint32_t color = temp.color(tem, 255);//temp to RGB
-    fillStrip(color);  
-    decode32BitColor(color);
+    color = temp.color(tem, 255);//temp to RGB
   }
   else {
-
-    fillStrip(hsl(hue, sat, 50)); //hsl to RGB
+    color = hsl(hue, sat, 50); //hsl to RGB
   }
+
+  //Set the strip
+  fillStrip(color);
+
+  //store color in EEPROM
+  uint8_t* pt = decode32BitColor(color);
+  storeInStruct(*pt++, *pt++, *pt);
+  putInEEPROM();
+  printEEPROM();
 }
 
 void doRainbow () {
   ticker.detach();
-  ticker.attach_ms(20, rainbowAmimation); //do not set period to low or it will reset
+  ticker.attach_ms(20, rainbowAnimation); //do not set period to low or it will reset
 }
 
-void xmas(){
+void xmas() {
   ticker.detach();
   ticker.attach_ms(1000, xmasToggle); //do not set period to low or it will reset
+}
+
+void chase() {
+  ticker.detach();
+  ticker.attach_ms(500, chaseAni); //do not set period to low or it will reset
 }
 
 uint8_t charLimitCorrection(int charValue) {

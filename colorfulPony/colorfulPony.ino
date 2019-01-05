@@ -1,4 +1,4 @@
-//https://github.com/athombv/homey-arduino-library/blob/master/docs/usage.md#the-basics
+//To intsall the board http://arduino.esp8266.com/stable/package_esp8266com_index.json
 
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
@@ -6,10 +6,10 @@
 #endif
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
-#include <Homey.h>
-#include <tempcolor.h> //https://gitlab.com/tllado/tempcolor
-#include <Ticker.h>   //https://circuits4you.com/2018/01/02/esp8266-timer-ticker-example/
-#include <EEPROM.h>   //https://github.com/esp8266/Arduino/tree/master/libraries/EEPROM/examples
+#include <Homey.h>      //https://github.com/athombv/homey-arduino-library/blob/master/docs/usage.md#the-basics
+#include <tempcolor.h>  //https://gitlab.com/tllado/tempcolor
+#include <Ticker.h>     //https://circuits4you.com/2018/01/02/esp8266-timer-ticker-example/
+#include <EEPROM.h>     //https://github.com/esp8266/Arduino/tree/master/libraries/EEPROM/examples
 
 #define NUM_LEDS 463
 #define LED_PIN 12 //GPIO 12 is D6 --> https://www.roboshala.com/nodemcu-pinout/
@@ -41,4 +41,3 @@ uint8_t rbCounter = 0;
 
 Ticker ticHomey;
 Ticker ticker;
-

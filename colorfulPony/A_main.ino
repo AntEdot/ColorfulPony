@@ -3,7 +3,6 @@ void setup() {
   EEPROM.begin(512);
 
   Serial.println();
-  strip.setBrightness(50);
   strip.begin();
   setStripToPrev();
   strip.show();
@@ -28,7 +27,7 @@ void setup() {
   */
   
 
-  //Register an example action
+  //Register an action
   Homey.addAction("printTest", printTest);
   Homey.addAction("setNeoPixelBrightness", setNeoPixelBrightness);
   Homey.addAction("setNeoPixelColor", setNeoPixelColor);
@@ -37,6 +36,7 @@ void setup() {
   Homey.addAction("setStripColor", setStripColor);
   Homey.addAction("rainbow", doRainbow);
   Homey.addAction("xmas", xmas);
+  Homey.addAction("chase", chase);
 
   Serial.println("READY");
 }

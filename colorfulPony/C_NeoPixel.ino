@@ -35,6 +35,48 @@ void xmasAnimation(uint8_t toggle) {
   strip.show();
 }
 
+
+int chaseAnimation(int pos) {
+  
+  int per = 100;
+  uint8_t colLn = 20;
+  uint8_t decAm = 10;
+  uint32_t color = encode32BitColor(255, 0, 0);
+  fillStrip(colorPercentage(color,100));
+
+  for (uint8_t i = 0; i < colLn; i++) {
+    if (pos > NUM_LEDS) {
+      pos = 0;
+    }
+    //strip.setPixelColor(pos, colorPercentage(color, per));
+    pos++;
+    per -= decAm;
+    per = charLimitCorrection(per);
+  }
+  return pos;
+}
+
+uint32_t colorPercentage(uint32_t color, float percentage) {
+
+  //Split into r,g,b
+  uint8_t r, g, b;
+  uint8_t* buf = decode32BitColor(color);
+  r = *buf++;
+  g = *buf++;
+  b = *buf;
+
+  //Set to percantage of base color
+  r = (uint8_t)(r * (percentage / 100));
+  g = (uint8_t)(g * (percentage / 100));
+  b = (uint8_t)(b * (percentage / 100));
+
+  r = charLimitCorrection(r);
+  g = charLimitCorrection(g);
+  b = charLimitCorrection(b);
+
+  return encode32BitColor(r, g, b);
+}
+
 //******BASIC FILL*****************************************************
 void fillStrip () {
   for (int i = 0; i < NUM_LEDS; i++) {

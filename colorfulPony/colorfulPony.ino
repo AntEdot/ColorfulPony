@@ -1,9 +1,9 @@
 //To intsall the board http://arduino.esp8266.com/stable/package_esp8266com_index.json
 
-#include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
 #include <avr/power.h>
 #endif
+#include <Adafruit_NeoPixel.h>
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <Homey.h>      //https://github.com/athombv/homey-arduino-library/blob/master/docs/usage.md#the-basics

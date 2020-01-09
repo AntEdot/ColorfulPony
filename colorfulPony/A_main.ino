@@ -5,7 +5,6 @@ void setup() {
   Serial.println();
   strip.begin();
   setStripToPrev();
-  strip.show();
 
   //Connect to network
   Serial.println();

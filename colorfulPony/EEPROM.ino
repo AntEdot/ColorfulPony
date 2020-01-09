@@ -24,6 +24,7 @@ void putInEEPROM() {
 }
 
 void printEEPROM() {
+  Serial.println("EEPROM");
   EEPROM.get(0, memory);
   Serial.print(memory.color.R);
   Serial.print(" ");
@@ -32,5 +33,3 @@ void printEEPROM() {
   Serial.println(memory.color.B);
   Serial.println(memory.brightness);
 }
-
-

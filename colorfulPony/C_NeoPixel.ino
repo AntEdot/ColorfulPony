@@ -10,7 +10,7 @@ void setStripToPrev() {
   printEEPROM();
   EEPROM.get(0, memory);
   strip.setBrightness(memory.brightness);
-  transitionToColor(0,0,0, encode32BitColor(memory.color.R, memory.color.G, memory.color.B),20);
+  transitionToColor(0, 0, 0, encode32BitColor(memory.color.R, memory.color.G, memory.color.B), 10);
 }
 
 void xmasAnimation(uint8_t toggle) {
@@ -92,11 +92,33 @@ void transitionToColor(uint8_t r1, uint8_t g1, uint8_t b1, uint32_t color, uint8
   int gDelta = (int)((g1 - g2) / steps);
   int bDelta = (int)((b1 - b2) / steps);
 
-  for (int i = 1; i < (steps + 1); i++) {
-    fillStrip(memory.color.R - rDelta * i, memory.color.G - gDelta * i, memory.color.B - bDelta * i);
-    delay(100/steps);
+  Serial.print("0=");
+  Serial.print(r1);
+  Serial.print(" ");
+  Serial.print(g1);
+  Serial.print(" ");
+  Serial.println(b1);
+
+  Serial.print("D=");
+  Serial.print(rDelta);
+  Serial.print(" ");
+  Serial.print(gDelta);
+  Serial.print(" ");
+  Serial.println(bDelta);
+
+  int i;
+  for (i = 0; i < (steps); i++) {
+    fillStrip(r1 - rDelta * i, g1 - gDelta * i, b1 - bDelta * i);
+    delay(100 / steps);
   }
-  fillStrip(color);
+  Serial.print("E=");
+  fillStrip((extraStep((r1 - rDelta * (i-1)),r2)),(extraStep((g1 - gDelta * (i-1)),g2)),(extraStep((b1 - bDelta * (i-1)),b2)));
+  Serial.print("G=");
+  fillStrip(r2, g2, b2);
+}
+
+uint8_t extraStep (uint8_t c1, uint8_t c2){
+  return c1 + ((c2-c1)/2);
 }
 
 //******BASIC FILL*****************************************************
@@ -108,6 +130,7 @@ void fillStrip () {
 }
 
 void fillStrip (uint32_t color) {
+  Serial.println(color, BIN);
   for (int i = 0; i < NUM_LEDS; i++) {
     strip.setPixelColor(i, color);
   }
@@ -115,6 +138,11 @@ void fillStrip (uint32_t color) {
 }
 
 void fillStrip (uint8_t red, uint8_t green, uint8_t blue) {
+  Serial.print(red);
+  Serial.print(" ");
+  Serial.print(green);
+  Serial.print(" ");
+  Serial.println(blue);
   for (int i = 0; i < NUM_LEDS; i++) {
     strip.setPixelColor(i, red, green, blue);
   }

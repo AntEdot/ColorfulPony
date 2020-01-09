@@ -85,7 +85,7 @@ void setStripColor () {
   hueF = hueF * 100;
   satF = satF * 100;
 
-  int      tem = map(temF, 0, 100, 10000, 2000);
+  int      tem = map(temF, 0, 100, 10000, 1500);
   uint16_t hue = map(hueF, 0, 100, 0, 359);
   uint8_t  sat = map(satF, 0, 100, 0, 100);
 
@@ -103,7 +103,7 @@ void setStripColor () {
 
   //Set the strip
   //fillStrip(color);
-  transitionToColor(memory.color.R, memory.color.G, memory.color.B, color, 20);
+  transitionToColor(memory.color.R, memory.color.G, memory.color.B, color, 10);
 
   //store color in EEPROM
   uint8_t* pt = decode32BitColor(color);
